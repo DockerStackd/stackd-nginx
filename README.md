@@ -1,1 +1,1 @@
-# drupal-nginx
+# Nginx Docker image
