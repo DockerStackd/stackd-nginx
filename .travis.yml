@@ -1,0 +1,29 @@
+language: python
+
+sudo: required
+
+services:
+  - docker
+
+env:
+  global:
+    - REPO=fortis/stackd-nginx
+    - COMMIT=${TRAVIS_COMMIT::8}
+
+install:
+  - mkdir -p /home/travis/.ssh
+  - ssh-keygen -t dsa -N '' -f /home/travis/.ssh/testkey
+  - chmod 700 /home/travis/.ssh
+  - docker build -t $REPO:$COMMIT .
+  - docker run -d -v /home/travis/.ssh:/mnt/ssh --name=php $REPO:$COMMIT
+
+script:
+  - docker ps | grep -q "$REPO:$COMMIT"
+  - docker exec nginx nginx -v | grep "nginx version"
+  - docker exec --user=82 nginx ssh -V
+  - docker exec --user=82 nginx rsync --version
+  - docker exec --user=82 nginx [ -f /home/www-data/.ssh/testkey ]
+  - docker exec --user=82 nginx [ -f /home/www-data/.ssh/testkey.pub ]
+
+after_failure:
+  - docker logs nginx
