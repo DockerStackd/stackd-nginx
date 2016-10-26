@@ -1,5 +1,5 @@
 FROM alpine:3.4
-MAINTAINER Wodby <hello@wodby.com>
+MAINTAINER Alan Bondarchuk <imacoda@gmail.com>
 
 ENV NGX_VER 1.10.1
 ENV NGX_UP_VER 0.9.1
