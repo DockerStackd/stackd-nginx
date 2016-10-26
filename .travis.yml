@@ -20,10 +20,10 @@ install:
 script:
   - docker ps | grep -q "$REPO:$COMMIT"
   - docker exec nginx nginx -v | grep "nginx version"
-  - docker exec --user=nginx nginx ssh -V
-  - docker exec --user=nginx nginx rsync --version
-  - docker exec --user=nginx nginx [ -f /home/www-data/.ssh/testkey ]
-  - docker exec --user=nginx nginx [ -f /home/www-data/.ssh/testkey.pub ]
+  - docker exec --user=82 nginx ssh -V
+  - docker exec --user=82 nginx rsync --version
+  - docker exec --user=82 nginx [ -f /home/www-data/.ssh/testkey ]
+  - docker exec --user=82 nginx [ -f /home/www-data/.ssh/testkey.pub ]
 
 after_failure:
   - docker logs nginx
